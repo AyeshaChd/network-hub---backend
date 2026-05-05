@@ -88,4 +88,15 @@ play with next function and errors along with res.send();
 - userAuth middleware
 - add userAuth middleware in Profile ans sendConnectionRequet api.
 - set the expiry of jwt token and cookies to 7 days
-        
+
+- create the list  of all apis
+- group the multiple apis under respective routes
+- read documentation of the express.router
+- create routes folder for managing auth,profile,request routes
+- create auth,profile and request route and import them in app.js
+
+- create post/logout api
+- create patch/profile/edit api
+- create patch /profile/ password => forgot password api
+- make sure to validate the data in every post and patch api
+      

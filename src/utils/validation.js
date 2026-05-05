@@ -13,7 +13,7 @@ else if(lastName.length < 4 || lastName.length > 50){
     throw new Error ("first name should be between 4 and 50 characters");
 }
 else if(! validator.isEmail(emailId))
-        {throw new Error("email is not vvvvvvvalid!")}
+        {throw new Error("email is not valid!")}
     
 else if(! validator.isStrongPassword(password))
 {
@@ -24,5 +24,24 @@ else if(! validator.isStrongPassword(password))
 
 }
 
-module.exports = { validateSignUpData
+const validateEditProfileData=(req)=>
+{
+    
+    const allowedDataForEdit =["firstName","lastName","emailId","about" ,"age" ,"gender" ,"photoUrl","skills"]
+   const isAllowed= Object.keys(req.body).every(field => allowedDataForEdit.includes(field)) // keys or field are the filds in request object
+   if(! isAllowed){
+throw new Error ("invalid Edit Request")
+   }
+   
+ return true
+ 
+}
+
+  
+
+   
+
+
+
+module.exports = { validateSignUpData ,validateEditProfileData
 }

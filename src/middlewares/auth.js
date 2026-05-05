@@ -7,7 +7,7 @@ const userAuth =  async (req,res,next)=>
          //validate the token
    const {token} = req.cookies
   
-   if( ! token){ throw new Error ("token is not found")}
+   if( ! token){ throw new Error ("token is not valid")}
    const decodedMessage= jwt.verify(token,'decTinder@123')
    const {_id} = decodedMessage
    const  user = await User.findById(_id)

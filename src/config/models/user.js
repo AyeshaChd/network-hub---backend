@@ -33,13 +33,13 @@ const userSchemma=  new mongoose.Schema({
     {
         type : String,
         required :true,
-        //  validate(value)
-        // {
-        //     if(!validator.isStrongPassword(value))
-        //     {
-        //         throw new Error("Password is not strong " + value);
-        //     }
-        // }
+         validate(value)
+        {
+            if(!validator.isStrongPassword(value))
+            {
+                throw new Error("Password is not strong " + value);
+            }
+        }
         
     },
     phoneNo :
