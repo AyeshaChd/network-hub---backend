@@ -105,5 +105,6 @@ userSchemma.methods.validPassword= async function(passwordInputByUser)
     const isvalidPassword =   await bcrypt.compare(passwordInputByUser , passwordHash)
       return isvalidPassword 
 }
+userSchemma.index({firstName:1,lastName:1})
 const User =mongoose.model("User" , userSchemma)
 module.exports={User};

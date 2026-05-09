@@ -99,4 +99,12 @@ play with next function and errors along with res.send();
 - create patch/profile/edit api
 - create patch /profile/ password => forgot password api
 - make sure to validate the data in every post and patch api
+
+- create connectdion request schemmsa 
+and do all the validations
+- read about $or query
+
+- read  about indexes
+- advantages and disasvantages of indexing
+- why we need index in DB.
       
