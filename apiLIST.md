@@ -11,13 +11,13 @@
 -PATCH/profile / password
 
 ## connectionRequestRouter
--POST/request/send/interested/:touserID      // fromUserID --logged in userID
--POST /request/send/ignore/:userID
--POST/request/review/accepted/:requestID
--POST/reuest/review/rejected/:requestID
+- POST/request/send/:status/:touserID      // fromUserID --logged in userID // status   is dynammic ,it can be interested or ignored
+- POST/request/review/:status/:requestID  // status id dynamic it can be accepted or rejected
+
 
 
 ## userRouter
+-GET/ user /requests/received
 - GET /user /connections
--GET/ user /requests 
+
 - GET/ user /feed  ---- give users to ur feed

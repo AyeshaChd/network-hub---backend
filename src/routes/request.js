@@ -4,8 +4,9 @@ const ConnectionRequest = require("../config/models/connectionRequest")
 
 const {userAuth} =require("../middlewares/auth");  
 const { User } = require("../config/models/user");
-requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> //  /: is use for dynamic 
-{ try{
+requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> //  /: status is use for dynamic it can be either interested or ignored
+{ 
+    try{
    
     const user= req.user;
 
@@ -25,7 +26,7 @@ requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> 
         console.log("user not exist")
           throw new Error ("User does not exist!");
     }
-
+// validating either the connection request is already exist or not 
     const existingConnectionRequest = await ConnectionRequest.findOne({
         $or : [{fromUserId,toUserID},{fromUserId:toUserID ,toUserID:fromUserId}]
     })
@@ -43,15 +44,64 @@ requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> 
     status,
         }
     )
+  
    const data= await connectionRequest.save()
-    res.json({
-        message : user.firstName + " , request has been "+ status+" succesfully",data
+   if(status === "interested"){
+   return res.json({
+        message : user.firstName + " , request has been sent succesfully",data
     })
+}
+return res.json({
+        message : user.firstName + " , request has been ignored succesfully",data
+    })
+
+}
+  
+catch(error)
+{
+  res.status(400).send("Error while request :"+ error.message)
+}
+}
+)
+
+requestRouter.post("/request/review/:status/:requestID",userAuth,async(req,res )=>
+{try{
+    const loggedInUser= req.user;
+    const allowedStatus =["accepted","rejected"]
+    const status = req.params.status;
+    const requestID=req.params.requestID
+    
+   
+    if( ! allowedStatus.includes(status))
+    {
+        res.status(400).json({
+            message: status + " status is not allowed!"
+        })
+    }
+    const connectionRequest= await ConnectionRequest.findOne({
+        _id : requestID,
+       
+        toUserID:loggedInUser._id,
+        status : "interested",
+
+    })
+    
+    if( ! connectionRequest)
+    {
+        res.status(404).send("connection request does not found")
+    }
+    
+     connectionRequest.status = status // updating the interested status in DB with status in req url
+
+     await connectionRequest.save();
+     res.send(`request has been ${status} successfully`)
+   
+
 
 }
 catch(error)
 {
-  res.status(400).send("Error while request :"+ error.message)
-}}
-)
+    res.status(400).send("Error :"+ error.message)
+}
+})
 module.exports = requestRouter

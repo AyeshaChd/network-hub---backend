@@ -1,14 +1,17 @@
 const mongoose = require ("mongoose")
-const connectionRequestSchemma = new mongoose.Schema({
+const {User}=require("../models/user")
+const connectionRequestSchema = new mongoose.Schema({
     fromUserId :
     {
         type : mongoose.Schema.Types.ObjectId,  // gives objectId of user
-        required :true
+        required :true,
+        ref : "User"
     },
     toUserID:
     {
         type : mongoose.Schema.Types.ObjectId,
-         required :true
+         required :true,
+           ref : "User"
     },
     status:
     {
@@ -26,14 +29,15 @@ const connectionRequestSchemma = new mongoose.Schema({
         timestamps :true ,
     }
 )
- connectionRequestSchemma.pre("save",function (){
+ connectionRequestSchema.pre("save",  function (){
     const connectionRequest=this
    if(connectionRequest.fromUserId.equals(connectionRequest.toUserID))
    {
     throw new Error("you can not  send request to yourself")
    }
+   
  })
- connectionRequestSchemma.index({fromUserId :1 , toUserID:1}) ///index to make query faster
-const connectionRequestModel = new mongoose.model("ConnectionRequest" , connectionRequestSchemma)
+ connectionRequestSchema.index({fromUserId :1 , toUserID:1}) ///index to make query faster
+const connectionRequestModel = new mongoose.model("ConnectionRequest" , connectionRequestSchema)
 module.exports =
     connectionRequestModel;

@@ -107,4 +107,18 @@ and do all the validations
 - read  about indexes
 - advantages and disasvantages of indexing
 - why we need index in DB.
-      
+- write with validations post("/request/review/:status/:requestID"  )
+- thought process post vs get
+- create GET/ user /requests/received to get all the  connection requests
+
+- logic for get /user/feed api
+- $nin ,$or ,$and ,$ne are comparison query operators we have to learn more about them from mongodb documentation
+
+- pagination
+
+/feed?page=1&limit=10 => 1-10 => .skip(0)&.limit(10)
+/feed?page=2&limit=10 => 11-20 => .skip(10)&.limit(10)
+/feed?page=3&limit=10 => 21-30 => .skip(20)&.limit(10)
+
+how to calculate skip 
+skip = page - 1 * limit  

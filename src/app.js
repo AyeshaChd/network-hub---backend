@@ -19,13 +19,16 @@ app.use(cookieParser())
 // importinf the routes
 const authRouter = require("./routes/auth")
 const profileRouter= require("./routes/profile")
-const requestRouter = require("./routes/request")
+const requestRouter = require("./routes/request");
+const userRouter = require("./routes/user");
 
  // using the routes
- console.log("hellooooooo  ")
+
  app.use("/", authRouter)
  app.use("/", profileRouter)
  app.use("/", requestRouter)
+ app.use("/",userRouter)
+
 
 
 
