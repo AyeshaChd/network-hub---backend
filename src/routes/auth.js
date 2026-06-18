@@ -22,8 +22,12 @@ const {password ,firstName ,lastName,emailId} =req.body
 );
 
    // saving this instance to db
-   await user.save();
-   res.send("user added succesfully");
+   const savedUser = await user.save();
+  const token = await savedUser.getJWT();
+        
+   res.cookie("token",token,{expires: new Date( Date.now()+ 8 * 3600000)});
+   res.json({message :"User added successfully" , data : savedUser})
+  
 }
 catch(err)
 {
@@ -43,19 +47,20 @@ authRouter.post("/login",async(req,res)=>
             throw new Error("invalid credentials")
         }
      
-        const  isvalidPassword = user.validPassword(password)
+        const  isvalidPassword = await user.validPassword(password)
         if(! isvalidPassword)
         {
-            throw new Error("invalid credentials") 
+            throw new Error("invalid credentials")   
         }
-        if(isvalidPassword)
+        if(  isvalidPassword)
 
         {
+            
             // create a JWT token
            const token = await user.getJWT();
-           console.log("token wile sent :"+token)
+        
             res.cookie("token",token,{expires: new Date( Date.now()+ 8 * 3600000)});
-            res.send ("login Successfully")
+            res.send (user)
         }
 
     
@@ -63,7 +68,8 @@ authRouter.post("/login",async(req,res)=>
     }  
     catch(err)
     {
-        res.status(404).send("error"+ err.message)
+        res.status(404).send("Error :"+ err.message)  
+        console.log(err)
     }
 })
 // creatin ga logout api

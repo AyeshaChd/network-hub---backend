@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const {userAuth}=require("../middlewares/auth")
 const ConnectionRequest = require("../config/models/connectionRequest");
 const { User } = require("../config/models/user");
-const User_Safe_Data = "firstName lastName photourl age gender"
+const User_Safe_Data = "firstName lastName photoUrl age gender about  _id"
 // all the pending requests
 userRouter.get("/user/requests/received",userAuth ,async(req,res)=>
 {
@@ -14,11 +14,12 @@ userRouter.get("/user/requests/received",userAuth ,async(req,res)=>
             status :"interested"
 
   
-        }).populate("fromUserId",["firstName","lastName","photourl","age","gender"])
+        }).populate("fromUserId",["firstName","lastName","photoUrl","age","gender","about","_id"])
        const data=connectionRequest.map(row => ({  // row means object
+        requestId: row._id,
         fromUserId:row.fromUserId,
          status: row.status,
-         sentAt:row.createdAt
+         sentAt:row.createdAt  
        }))
  
 

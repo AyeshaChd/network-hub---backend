@@ -68,6 +68,7 @@ const userSchemma=  new mongoose.Schema({
     photoUrl :
     {
         type : String,
+        default : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmRLRMXynnc7D6-xfdpeaoEUeon2FaU0XtPg&s",
          validate(value)
         {
             if(!validator.isURL(value))
@@ -78,7 +79,7 @@ const userSchemma=  new mongoose.Schema({
     },
     about :{
       type: String,
-      default : "this is the default of about",
+      default : "this is the default about",
     },
     skills :
     {
