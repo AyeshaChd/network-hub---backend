@@ -4,6 +4,7 @@ const ConnectionRequest = require("../config/models/connectionRequest")
 
 const {userAuth} =require("../middlewares/auth");  
 const { User } = require("../config/models/user");
+ const sendEmail= require("../utils/sendEmail")
 requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> //  /: status is use for dynamic it can be either interested or ignored
 { 
     try{
@@ -46,6 +47,8 @@ requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> 
     )
   
    const data= await connectionRequest.save()
+    const sendRes = await sendEmail.run("A new friend Request from "+"Hi! " + user.firstName,user.firstName + "  is   "+ status+ "in"+ "you")
+   console.log(sendRes)
    if(status === "interested"){
    return res.json({
         message : user.firstName + " , request has been sent succesfully",data

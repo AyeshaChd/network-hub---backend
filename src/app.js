@@ -1,8 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const app=express();
-require("./config/database");
+
 const {connectDB }=require("./config/database")
 const {User}= require("./config/models/user")
+
 
 
 const cookieParser = require("cookie-parser");
@@ -113,7 +115,7 @@ connectDB()
 {
     console.log("succesfully connected to db");
     // server is listening
-    app.listen(3000,()=>
+    app.listen(process.env.PORT,()=>
 
 {
     console.log("server is listening on port 3000");
