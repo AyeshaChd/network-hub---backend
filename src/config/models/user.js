@@ -84,7 +84,16 @@ const userSchemma=  new mongoose.Schema({
     skills :
     {
         type : [String],  
+    },
+    isPremium:{
+        type: Boolean,
+        default:false
+    },
+    premiumType:{
+        type: String ,
+        
     }
+
 },{
     timestamps:true,
 })

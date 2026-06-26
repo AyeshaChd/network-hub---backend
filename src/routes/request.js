@@ -47,7 +47,7 @@ requestRouter.post("/request/send/:status/:toUserID", userAuth,async(req,res)=> 
     )
   
    const data= await connectionRequest.save()
-    const sendRes = await sendEmail.run("A new friend Request from "+"Hi! " + user.firstName,user.firstName + "  is   "+ status+ "in"+ "you")
+    const sendRes = await sendEmail.run("A new friend Request from " + user.firstName,user.firstName + "  is   "+ status+ "in"+ "you")
    console.log(sendRes)
    if(status === "interested"){
    return res.json({
