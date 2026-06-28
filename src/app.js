@@ -19,11 +19,15 @@ const cors = require('cors')
 // app.use(cors({ origin : "http://localhost:5173", credentials : true}))
 // const cors = require('cors');
 
-app.use(cors({
-    origin: ['http://13.232.34.229/', 'http://localhost:5173'], // Add your exact EC2 IP address here
-    credentials: true,
-    
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",          // For local frontend testing
+      "https://webtinder.duckdns.org"   // 💡 Your new secure production domain
+    ],
+    credentials: true,                  // Crucial for cookies/sessions to work over HTTPS
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser())
