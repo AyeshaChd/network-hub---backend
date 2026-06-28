@@ -6,7 +6,7 @@ const {Payment}=require("../config/models/payment")
 const membershipAmount=require("../utils/constants")
 const {validateWebhookSignature} = require('razorpay/dist/utils/razorpay-utils');
 const { User } = require("../config/models/user");
-paymentRouter.post("/payment/create",userAuth,async(req,res)=>
+paymentRouter.post("payment/create",userAuth,async(req,res)=>
 {
    const{membershipType}=req.body
   const{firstName,lastName,emailId}=req.user
@@ -62,7 +62,7 @@ console.log("===== FULL ERROR OBJECT =====");
 })
 }
 })
-paymentRouter.post("/payment/webhook",async(req,res)=>
+paymentRouter.post("payment/webhook",async(req,res)=>
 {
   try{
     const webhookSignature=req.get("X-Razorpay-Signature")
