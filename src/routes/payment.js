@@ -12,18 +12,28 @@ paymentRouter.post("/payment/create",userAuth,async(req,res)=>
   const{firstName,lastName,emailId}=req.user
   // console.log("razorpayInstance",razorpayInstance)
   try{
-  const order = await  razorpayInstance.orders.create({
-  "amount": membershipAmount[membershipType]* 100,
-  "currency": "INR",
-  "receipt": "receipt#1",
-  // "partial_payment": false,
-  "notes": {
-    "firstName": firstName,
-    "lastName": lastName,
-    "emailId" :emailId,
-    "premiumType":membershipType
-  }
+  // const order = await  razorpayInstance.orders.create({
+  // "amount": membershipAmount[membershipType]* 100,
+  // "currency": "INR",
+  // "receipt": "receipt#1",
+  // // "partial_payment": false,
+  // "notes": {
+  //   "firstName": firstName,
+  //   "lastName": lastName,
+  //   "emailId" :emailId,
+  //   "premiumType":membershipType
+  // }
 
+const order = await razorpayInstance.orders.create({
+  amount: membershipAmount[membershipType] * 100, // Clean key
+  currency: "INR",                                // Clean key
+  receipt: "receipt_1",                           // Clean key (avoid special chars like #)
+  notes: {                                        // Clean key
+    firstName: firstName,
+    lastName: lastName,
+    emailId: emailId,
+    premiumType: membershipType
+  }
 
 
   
