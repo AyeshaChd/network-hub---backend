@@ -38,6 +38,7 @@ const order = await razorpayInstance.orders.create({
 
   
 });
+
   // save order in db
  
 
@@ -51,11 +52,11 @@ const order = await razorpayInstance.orders.create({
     notes:order.notes,
   })
   const savedPayment = await payment.save()
+console.log("Sending Key ID:", process.env.RazorPay_Key_ID);
 res.json({...savedPayment.toJSON(),keyId :process.env.RazorPay_Key_ID})
 
 
-// console.log("razorpayInstance",razorpayInstance)
-// console.log("order",order)
+
   }
 catch(error)
 {
@@ -83,11 +84,11 @@ paymentRouter.post("/payment/webhook",async(req,res)=>
   }
   // update my payment status in DB
   const paymentDetails= req.body.payload.payment.entity;
-  const payment = Payment.findOne({orderId:paymentDetails.order_id})
+  const payment = await Payment.findOne({orderId:paymentDetails.order_id})
   payment.status = paymentDetails.status;
   await payment.save();
 
-  const user =User.findOne({_id : payment.userId})
+  const user = await User.findOne({_id : payment.userId})
   user.isPremium =true,
   user.premiumType = payment.notes.premiumType
   await user.save()
@@ -102,7 +103,7 @@ paymentRouter.post("/payment/webhook",async(req,res)=>
 }
   catch(error)
   {
-   return res.status(500).json({msg:error.msg})
+   return res.status(500).json({msg:error.message})
   }
 })
 module.exports = paymentRouter
