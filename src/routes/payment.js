@@ -76,6 +76,7 @@ console.log("===== FULL ERROR OBJECT =====");
 paymentRouter.post("/payment/webhook",async(req,res)=>
 {
   try{
+      console.log("🔥 WEBHOOK HIT");
     const webhookSignature=req.get("X-Razorpay-Signature")
   const isWebhookValid =validateWebhookSignature(JSON.stringify(req.body), webhookSignature, process.env.Razorpay_Webhook_secret)
   if( ! isWebhookValid ){
@@ -87,9 +88,9 @@ paymentRouter.post("/payment/webhook",async(req,res)=>
   const payment = await Payment.findOne({orderId:paymentDetails.order_id})
   payment.status = paymentDetails.status;
   await payment.save();
-
+   console.log("premium:")
   const user = await User.findOne({_id : payment.userId})
-  user.isPremium =true,
+  user.isPremium = true,
   user.premiumType = payment.notes.premiumType
   await user.save()
   // if(req.body.event=="payment.captured"){}
